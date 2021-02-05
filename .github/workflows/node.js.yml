@@ -1,12 +1,13 @@
-name: Compile Less 
+name: Compile Less
 
 on:
   push:
-    branches: 
+    branches:
       - master
-      - devlop
+      - develop
+      - test
   pull_request:
-    branches: 
+    branches:
       - '**'
 
 jobs:
