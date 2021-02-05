@@ -1,0 +1,19 @@
+fileExtensions:
+  - ".less"
+
+spaceAroundComma:
+  allowNewline: true
+  severity: error
+
+spaceAfterPropertyColon:
+  enabled: true
+  style: one_space
+
+singleLinePerProperty:
+  severity: error
+
+maxCharPerLine:
+  limit: 120
+
+stringQuotes:
+  style: double
