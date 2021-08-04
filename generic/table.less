@@ -65,17 +65,21 @@
   &-head-cell {
     background-color: @headBackgroundColor;
     .border(@borderWidth, solid, darken(@headBackgroundColor, 15%));
+
     font-weight: @fontWeightNormal;
     text-align: center;
-    color: contrast(darken(@headBackgroundColor,15%));
+    color: contrast(darken(@headBackgroundColor, 15%));
   }
 
   &-body-row,
   &-foot-row {
     .border(@borderWidth, solid, darken(@headBackgroundColor, 15%));
+
     &.is-active {
       background-color: darken(@selectionColor, 2%);
-      &-body-cell, &-foot-cell { color: contrast(@selectionColor); }
+
+      &-body-cell,
+      &-foot-cell { color: contrast(@selectionColor); }
     }
   }
 
@@ -99,8 +103,8 @@
     color: contrast(@selectionColor);
   }
 
-  &-body-cell[data-title]:before,
-  &-foot-cell[data-title]:before {
+  &-body-cell[data-title]::before,
+  &-foot-cell[data-title]::before {
     content: attr(data-title);
     float: left;
     color: fadeout(@textColor, 25%);
@@ -190,4 +194,3 @@
     }
   });
 }
-

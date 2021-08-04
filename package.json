@@ -1,0 +1,27 @@
+{
+  "name": "viur-ignite",
+  "version": "4.0.0",
+  "description": "[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://raw.githubusercontent.com/viur-ignite/ignite/master/LICENSE)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx stylelint -s less **/*.less"
+  },
+  "author": "Mausbrand Informationssysteme GmbH",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viur-framework/viur-ignite.git"
+  },
+  "keywords": [
+    "ViUR"
+  ],
+  "bugs": {
+    "url": "https://github.com/viur-framework/viur-ignite/issues"
+  },
+  "homepage": "https://github.com/viur-framework/viur-ignite#readme",
+  "devDependencies": {
+    "stylelint": "^13.13.1",
+    "stylelint-config-standard": "^22.0.0"
+  }
+}
