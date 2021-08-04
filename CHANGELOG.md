@@ -1,6 +1,47 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [develop]
+
+
+## [4.0.0] - 2021-02-26
+
+### Changed
+- **BREAKING:** changed many variables of basic and generic elements (see deprecated.less for more)
+- **BREAKING:** changed names of generic elements mixins to `.generic{Name}()` – e.g. `.genericBtn()` instead of `.btn()` 
+- improved flex behaviour of inputs and selects
+- `.shd` and `.txt-shd` are now normal css elements - no longer mixins and use the _@defaultShadowColor_
+- moved basic input resets to reset.less
+- increased mobile font-size of generic tables.
+- made some (form and button) alignments more intuitive
+- standardised `.basicTickbox()` and `.basicInput()`
+- made `margin-bottom` of `.genericMsg` conditional
+- adjusted screen sizes
+- many small changes and adjustments
+- some styling changes
+
+### Added
+- **BREAKING:** added prefixed variables to all generic elements
+- **BREAKING:** added mixins with parentheses to all generic elements (you need to configure/activate them manually now)
+- added more customisation options to generic elements
+- added `max-width` to inputs and selects
+- added folder overviews (_foundation.less, _generic.less, _mixins.less)
+- added better support for and hooks to inputvalidation.less and basicinput.less
+- added important mobility to `.{bar}-items` (left, center, right modifier).
+- **NEW** popup.less: a popup container that appears above other content onscreen
+- **NEW** popout.less: a popout container that emerges from a location with an arrow pointing at it
+- **NEW** box.less: a visible multi-purpose container (head/body/foot), which can group other elements.
+- **NEW** deprecated.less: deprecated variables are redirected to their successors or a viable default
+- **NEW** `@spaceSmall`, `@spaceMedium`, `@spaceLarge` too better coordinate space between different objects.
+- **NEW** cascading `.{input-groups}` are now supported
+- **NEW** `.{input-group}-items` and their modifiers help to style (cascading) `.{input-groups}`
+
+### Removed
+- removed old browser support from reset.less
+- Let the guards down: removed guards from generic elements and colorize mixins (see deprecated.less for more)
+- removed `white-space: nowrap;` from `.genericLabel()`
+
+
 ## [3.2.0] - 2020-01-24
 
 ### Added
@@ -17,7 +58,7 @@ All notable changes to this project will be documented in this file.
 - moved selections from state.less to basic.less
 - moved media queries from state.less to mediaqueries.less
 - burger: new cascade. class `{burger}--to-cross` is now related to the same element with class `{burger}` 
-- padding of lists (ul/ol with .is-list)
+- padding of lists (ul/ol with `.is-list`)
 - table-width is not full-sized (100%) by default
 
 ### Fixed
@@ -149,6 +190,7 @@ Moreover flex layout is no longer the exception but the norm.
 - Changelog started here
 
 
+[4.0.0]: https://github.com/viur-framework/ignite/compare/3.2.0...4.0.0
 [3.2.0]: https://github.com/viur-framework/ignite/compare/3.1.0...3.2.0
 [3.1.0]: https://github.com/viur-framework/ignite/compare/3.0.00...3.1.0
 [3.0.0]: https://github.com/viur-framework/ignite/compare/1.0.24...3.0.00

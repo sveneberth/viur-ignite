@@ -8,36 +8,44 @@
 // .bar-
 // .bar-group-
 
-& when (@bar=true) {
-  .bar {
-    display: block;
-    text-align: left;
+.genericBar() {
+  display: flex;
+  text-align: left;
 
-    .mq-max(@breakSmall, {
-      & > * + * {margin-top: 10px;}
-    });
+  .mq-max(@breakSmall, {
+    flex-direction: column;
+    & > * + * {margin-top: 10px;}
+  });
 
-    .mq-min(@breakSmall, {
-      font-size: .9rem;
-      align-items: stretch;
-      display: flex;
-      flex-wrap: wrap;
-      min-height: 35px;
-      position: relative;
-      text-align: center;
-      justify-content: space-between;
-      & > * + * {margin-left: 10px;}
-      &-item {align-self: center;}
-    });
-
-    &-link {
-      .mq-min(@breakSmall, { display: flex; });
+  .mq-min(@breakSmall, {
+    font-size: .9rem;
+    align-items: stretch;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 35px;
+    position: relative;
+    text-align: center;
+    justify-content: space-between;
+    & > * + * {margin-left: 10px;}
+    &-item {
+      align-self: center;
+      &--left {margin-right: auto !important;}
+      &--right {margin-left: auto !important;}
+      &--center {
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
     }
+  });
+
+  &-link {
+    .mq-min(@breakSmall, { display: flex; });
   }
-  .bar-group {
-    display: block;
-    & > * {display: block; align-items: center;}
+  &-group {
+    display: flex;
+    & > * {display: flex; align-items: center;}
     .mq-max(@breakSmall, {
+      flex-direction: column;
       & > * + * {margin-top: 10px;}
     });
 

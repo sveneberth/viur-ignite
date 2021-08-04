@@ -1,5 +1,12 @@
 @charset "UTF-8";
-/* FORM PARTS */
+/* FORM ELEMENTS */
+
+/* Generic form elements are a collection of different objects needed to build a typical online form.
+   From basic input fields over dropdown selections up to switches.
+   They can be combined to logical groups with the help of form-group or input-group.
+   Form groups are sets of different options/fields that belong to one category (e.g. an address with street, zip and city),
+   whereas input groups are different types of elements that belong to one option/field (e.g. a label, an input and a button).
+ */
 
 // Prefixes and objects:
 // .input
@@ -14,530 +21,610 @@
 // .input-group
 
 // Adjustments:
+// Spacing:
+@form-padding: @defaultPadding;
+@form-margin: @defaultMargin;
+@form-inputMaxWidth: 30vw;
 
-// Padding:
-@inputPadding: @defaultPadding;
-@inputMargin: @defaultMargin;
+// Colors:
+@form-color: @defaultFormColor;
+@form-validColor: @successColor;
+@form-dangerColor: @failColor;
+@form-hintColor: @hintColor;
+@form-requiredColor: @mainColor;
 
-// Colors and shadows:
-@inputColor: @defaultInputColor;
-@inputValidColor: @successColor;
-@inputDangerColor: @failColor;
-@inputHintColor: @hintColor;
-@inputRequiredColor: @mainColor;
+// Shadows:
+@form-shadow: @defaultShadow;
+@form-shadowHover: @defaultShadowHover;
+@form-shadowColor: @defaultShadowColor;
 
-@inputShadow: @defaultShadow;
-@inputShadowHover: @defaultShadowHover;
-@inputShadowColor: @defaultShadowColor;
+// Borders:
+@form-borderRadius: @defaultBorderRadius;
+@form-borderWidth: @defaultBorderWidth;
+@form-borderColor: darken(@defaultFormColor, 12%);
 
-@inputBorderRadius: @defaultBorderRadius;
-@inputBorderWidth: @defaultBorderWidth;
-@inputBorderColor: darken(@defaultInputColor, 10%);
-
-
-& when (@form=true) {
-  /* Input */
-
-  .input {
-    .basicInput;
-    background-color: @inputColor;
-    color: contrast(@inputColor, #222222, #f4f4f4);
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    min-width: 0;
-    flex: 1;
-    max-width: 100%;
-    transition: all .3s ease;
-    background-position: 150% center;
-    background-size: 15px;
-    background-repeat: no-repeat;
-
-    .form-group--validation &,
-    .input-group--validation &,
-    &--validation {
-      .input-group.is-invalid &,
-      &.is-invalid,
-      &[aria-invalid="true"],
-      &:invalid:not(:placeholder-shown) {
-        .inputValidation(@inputColor, @inputDangerColor, @backgroundImage:true, @cursor:false, @focus:true);
-        .penBg(@color:@inputDangerColor);
-      }
-
-      .input-group.is-recommended &,
-      &.is-recommended {
-        .inputValidation(@inputColor, @inputHintColor, @backgroundImage:true, @cursor:false, @focus:true);
-        .penBg(@color:@inputHintColor);
-      }
-
-      .input-group.is-valid &,
-      &.is-valid,
-      &[aria-invalid="false"],
-      &:valid:not(:placeholder-shown):not([type="password"]) {
-        .inputValidation(@inputColor, @inputValidColor, @backgroundImage:true, @cursor:false, @focus:true);
-        .checkBg(@color:@inputValidColor);
-      }
+/* Input */
+.genericInput() {
+  .basicInput(@padding:@form-padding, @margin:@form-margin, @borderRadius:@form-borderRadius, @borderWidth:@form-borderWidth, @borderColor:@form-borderColor, @fontWeight: @fontWeightLight);
+  background-color: @form-color;
+  color: contrast(@form-color, #222222, #f4f4f4);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1 1 0;
+  transition: all .3s ease;
+  background-position: 150% center;
+  background-size: 1em;
+  background-repeat: no-repeat;
+  .form-group--validation &,
+  .input-group--validation &,
+  &--validation {
+    padding-right: ~"calc("@form-padding*2~" + 1em)";
+    .input-group.is-invalid &,
+    &.is-invalid,
+    &[aria-invalid="true"],
+    &:invalid:not(:placeholder-shown) {
+      .inputValidation(@form-color, @form-dangerColor, @backgroundImage:true, @cursor:false, @focus:true);
+      .penBg(@color:@form-dangerColor);
     }
 
-    &.is-readonly,
-    &:read-only,
-    &[aria-readonly="true"] {
-      .inputValidation(@inputColor, darken(@inputColor, 50%), @cursor:auto);
-      .boxShadow(0);
-      border-style: dashed;
-      border-bottom-style: solid;
+    .input-group.is-recommended &,
+    &.is-recommended {
+      .inputValidation(@form-color, @form-hintColor, @backgroundImage:true, @cursor:false, @focus:true);
+      .penBg(@color:@form-hintColor);
     }
 
-    &.is-disabled,
-    &:disabled,
-    &[aria-disabled="true"] {
-      .inputValidation(@inputColor, darken(@inputColor, 15%), @backgroundImage:true, @cursor:not-allowed);
-      .not-allowedBg(@color:darken(@inputColor,15%));
-      .boxShadow(0);
-      border-style: dashed;
-    }
-
-    &--contrast {
-      background-color: darken(@inputColor, 5%);
-      border: @defaultBorderWidth solid darken(@inputColor, 15%);
-      color: contrast(darken(@inputColor, 5%), #000000, #ffffff);
-    }
-
-    &--small {
-      font-size: .8em;
-      font-weight: @fontWeightNormal;
-    }
-
-    &--large {
-      font-size: 1.25em;
+    .input-group.is-valid &,
+    &.is-valid,
+    &[aria-invalid="false"],
+    &:valid:not(:placeholder-shown):not([type="password"]) {
+      .inputValidation(@form-color, @form-validColor, @backgroundImage:true, @cursor:false, @focus:true);
+      .checkBg(@color:@form-validColor);
     }
   }
 
-  // placeholder text color
-  .input::placeholder, .textarea::placeholder {
-    color: lighten(contrast(@inputColor, #222222, #f4f4f4), 50%);
-    opacity: 1;
-  }
-  .input::-webkit-input-placeholder, .textarea::-webkit-input-placeholder {
-    color: lighten(contrast(@inputColor, #222222, #f4f4f4), 50%);
-    opacity: 1;
-  }
-  .input:-moz-placeholder, .textarea:-moz-placeholder {
-    color: lighten(contrast(@inputColor, #222222, #f4f4f4), 50%);
-    opacity: 1;
-  }
-  .input::-moz-placeholder, .textarea::-moz-placeholder {
-    color: lighten(contrast(@inputColor, #222222, #f4f4f4), 50%);
-    opacity: 1;
-  }
-  .input:-ms-input-placeholder, .textarea:-ms-input-placeholder {
-    color: lighten(contrast(@inputColor, #222222, #f4f4f4), 50%);
-    opacity: 1;
+  &.is-readonly,
+  &:read-only,
+  &[aria-readonly="true"] {
+    .inputValidation(@form-color, darken(@form-color, 50%), @cursor:not-allowed);
+    .boxShadow(0);
+    border-style: dashed;
+    border-bottom-style: solid;
   }
 
-  /* Label */
-  .label {
-    .basicInput(@borderColor:darken(@defaultInputColor,12%));
-    align-self: flex-start;
-    white-space: nowrap;
-    background-color: darken(@inputColor, 2%);
-    color: contrast(darken(@inputColor, 2%), #000000, #ffffff);
-    min-width: 190px;
-
-    .input-group.is-required &,
-    &.is-required {
-      border-left: @defaultBorderWidth+1px solid @inputRequiredColor;
-      color: @inputRequiredColor;
-      font-weight: @fontWeightBold;
-    }
-
-    .input-group.is-required &:after,
-    &.is-required:after {
-      content: '\00a0*';
-    }
-
-    .form-group--validation &,
-    .input-group--validation &,
-    &--validation {
-      .input-group.is-invalid &,
-      &.is-invalid {
-        color: darken(@inputDangerColor, 25%);
-        border-color: @inputDangerColor;
-        background-color: lighten(@inputDangerColor, 20%);
-      }
-
-      .input-group.is-recommended &,
-      &.is-recommended {
-        color: darken(@inputHintColor, 25%);
-        border-color: @inputHintColor;
-        background-color: lighten(@inputHintColor, 20%);
-      }
-
-      .input-group.is-valid &,
-      &.is-valid {
-        color: darken(@inputValidColor, 25%);
-        border-color: @inputValidColor;
-        background-color: lighten(@inputValidColor, 20%);
-      }
-    }
-
-    &.is-disabled,
-    &:disabled {
-      color: #777777;
-      cursor: not-allowed;
-      .boxShadow(0);
-      border: @defaultBorderWidth dashed darken(@inputColor, 20%);
-      background-color: darken(@inputColor, 5%);
-    }
-
-    .icon {
-      margin: 0 .25em 0 -.1em;
-      align-self: center;
-    }
-
-    &--small {
-      font-size: .8em;
-      font-weight: @fontWeightNormal;
-      min-width: 90px;
-    }
-
-    &--block {
-      width: 100%;
-      margin: 0;
-    }
+  &.is-disabled,
+  &:disabled,
+  &[aria-disabled="true"] {
+    .inputValidation(@form-color, darken(@form-color, 15%), @backgroundImage:true, @cursor:not-allowed);
+    .not-allowedBg(@color:darken(@form-color,15%));
+    .boxShadow(0);
+    border-style: dashed;
   }
 
-
-  /* Dropdown */
-  .select {
-    .basicInput(@borderColor:darken(@defaultInputColor,12%));
-    color: contrast(@inputColor, #222222, #f4f4f4);
-    //align-self: flex-start;
-    max-width: 100%;
-    min-width: 0;
-    //flex: 1;
-    padding-right: 38px;
-    background-color: @inputColor;
-    .arrowsUpDownBg(@color:contrast(@inputColor, #222222, #f4f4f4));
-    background-size: 20px;
-    background-repeat: no-repeat;
-    background-position: right center;
-    transition: all .3s ease;
-
-    &:hover {
-      .boxShadow(@inputShadowHover, @inputShadowColor);
-    }
-
-    &.is-disabled,
-    &:disabled {
-      color: #777777;
-      cursor: not-allowed;
-      .boxShadow(0);
-      border: @defaultBorderWidth dashed darken(@inputColor, 20%);
-      background-color: darken(@inputColor, 5%);
-    }
-
-    .form-group--validation &,
-    .input-group--validation &,
-    &--validation {
-      .input-group.is-invalid &,
-      &.is-invalid,
-      &[aria-invalid="true"],
-      &:invalid {
-        .inputValidation(@inputColor, @inputDangerColor, @focus:true);
-      }
-
-      .input-group.is-valid &,
-      &.is-valid,
-      &:valid {
-        .inputValidation(@inputColor, @inputValidColor, @focus:true);
-      }
-    }
-
-    &--small {
-      font-size: .8em;
-      font-weight: @fontWeightNormal;
-      background-size: 10px;
-    }
+  &--contrast {
+    background-color: darken(@form-color, 5%);
+    border: @form-borderWidth solid darken(@form-color, 15%);
+    color: contrast(darken(@form-color, 5%), #000000, #ffffff);
   }
 
-  /* Text area */
-  .textarea {
-    resize: none;
-    margin: @inputMargin 0;
-    padding: @inputPadding @inputPadding*3.75;
-    width: 250px;
-    height: 180px;
-    background-color: @inputColor;
-    border: 1px solid darken(@inputColor, 10%);
-    color: contrast(@inputColor, #222222, #f4f4f4);
-    transition: all .3s ease;
-    background-position: 150% center;
-    background-size: 15px;
-    background-repeat: no-repeat;
-    text-align: left;
-    font-weight: @fontWeightLight;
-
-    &--block {
-      width: 100%;
-      margin: 0;
-    }
+  &--small {
+    font-size: .8em;
+    font-weight: @fontWeightNormal;
   }
 
-  /* Switch */
-  // A simple, yet elegant, boolean switch.
-  .switch {
-    .basicInput(@borderColor:darken(@defaultInputColor,12%));
-    background-color: darken(@inputColor, 2%);
-    color: contrast(darken(@inputColor, 2%), #000000, #ffffff);
-
-    &-input {
-      display: none;
-
-      &:checked + .switch-label {
-        background: lighten(@inputValidColor, 20%);
-      }
-
-      &:checked + .switch-label:after {
-        left: 50%;
-      }
-    }
-
-    &-label {
-      background: darken(@inputColor, 10%);
-      .border-radius(@defaultBorderRadius);
-      padding: 2px;
-      transition: all .4s ease;
-      outline: 0;
-      display: block;
-      width: 3em;
-      height: 1.5em;
-      position: relative;
-      cursor: pointer;
-      user-select: none;
-
-      &:after {
-        left: 0;
-        position: relative;
-        display: block;
-        content: "";
-        width: 50%;
-        height: 100%;
-        background: #fff;
-        transition: all .2s ease;
-        .boxShadow(@inputShadow, @inputShadowColor);
-      }
-    }
+  &--large {
+    font-size: 1.25em;
   }
-
-  .tickbox() {
-    .basicInput(@padding: 0;);
-    background-color: darken(@inputColor, 2%);
-    border: 1px solid darken(@inputColor, 12%);
-    color: contrast(darken(@inputColor, 2%), #000000, #ffffff);
-    &-input {
-      opacity: 0;
-      position: absolute;
-    }
-    &-label {
-      position: relative;
-      display: flex;
-      align-items: center;
-      outline: 0;
-      cursor: pointer;
-      flex-basis: 100%;
-
-      &:before {
-        content: '';
-        background: #fff;
-        border: 2px solid darken(@inputColor, 10%);;
-        display: inline-block;
-        vertical-align: middle;
-        width: 1em;
-        height: 1em;
-        margin-top: -2px;
-        text-align: center;
-        transition: all .4s ease;
-        box-shadow: inset 0 0 0 2px #fff;
-      }
-
-      &:not(:empty) {
-        padding: @inputPadding @inputPadding*3.75;
-
-        &:before {
-          margin-right: 10px;
-        }
-
-        &:hover {
-          background-color: @inputColor;
-        }
-      }
-    }
-    &-input:checked + &-label:before {
-      background: lighten(@inputValidColor, 20%);
-      border: 2px solid lighten(@inputValidColor, 10%);
-    }
-  }
-
-  /* Radio button */
-  .radio {
-    .tickbox();
-
-    &-label {
-      &:before {
-        border-radius: 50%;
-      }
-    }
-  }
-
-  /* Checkbox */
-  .check {
-    .tickbox();
-  }
-
-  /* Option group */
-  // Group radio buttons or checkboxes together for multi-selection lists.
-  .option-group {
-    display: flex;
-    flex-direction: column;
-
-    & .radio,
-    & .check {
-      width: 100%;
-      margin: 0;
-      position: relative;
-      border-width: 0 @defaultBorderWidth;
-      font-weight: @fontWeightLight;
-      font-size: .75em;
-
-      &:nth-of-type(even) {
-        background-color: darken(@inputColor, 5%);
-      }
-
-      &:first-child {
-        border-width: @defaultBorderWidth;
-        border-bottom-width: 0;
-      }
-
-      &:last-child {
-        border-width: @defaultBorderWidth;
-        border-top-width: 0;
-      }
-
-      .mq-min(@breakSmall, { width: auto; });
-
-      & .radio-label,
-      & .check-label {
-        padding: @inputPadding*1.5 @inputPadding*3.75;
-        padding-right: 1.75em;
-      }
-    }
-
-    &--selection-list {
-      max-height: 150px;
-      overflow-y: auto;
-      overflow-x: hidden;
-
-      .radio,
-      .check {
-        flex: 1 0 auto;
-      }
-
-      .radio-label,
-      .check-label {
-        white-space: nowrap;
-        padding-right: 30px;
-      }
-
-      .radio:not(:last-child) .radio-label,
-      .check:not(:last-child) .check-label {
-        border-bottom: @defaultBorderWidth solid darken(@inputColor, 20%);
-      }
-
-      .radio-label:before,
-      .check-label:before {
-        content: none;
-      }
-
-      .radio-input:checked + .radio-label,
-      .check-input:checked + .check-label {
-        background: lighten(@inputValidColor, 20%);
-        border-bottom: @defaultBorderWidth solid lighten(@inputValidColor, 10%);
-        color: #fff;
-
-        &:hover {
-          background-color: lighten(@inputValidColor, 10%);;
-        }
-      }
-    }
-  }
-
-
-  .input,
-  .label + .input--block,
-  .label + .textarea--block,
-  .select,
-  .switch,
-  .radio {
+  &,
+  &--block {
     .mq-max(@breakSmall, { width: 100%; margin: 0; margin-bottom: 5px; });
   }
+}
 
-  /* Input group */
-  // Group buttons, labels and inputs together.
-  .input-group {
-    display: flex;
-    align-items: center;
+// placeholder text color
+.input::placeholder, .textarea::placeholder {
+  color: lighten(contrast(@form-color, #222222, #f4f4f4), 50%);
+  opacity: 1;
+}
+.input::-webkit-input-placeholder, .textarea::-webkit-input-placeholder {
+  color: lighten(contrast(@form-color, #222222, #f4f4f4), 50%);
+  opacity: 1;
+}
+.input:-moz-placeholder, .textarea:-moz-placeholder {
+  color: lighten(contrast(@form-color, #222222, #f4f4f4), 50%);
+  opacity: 1;
+}
+.input::-moz-placeholder, .textarea::-moz-placeholder {
+  color: lighten(contrast(@form-color, #222222, #f4f4f4), 50%);
+  opacity: 1;
+}
+.input:-ms-input-placeholder, .textarea:-ms-input-placeholder {
+  color: lighten(contrast(@form-color, #222222, #f4f4f4), 50%);
+  opacity: 1;
+}
 
-    & .select,
-    & .input,
-    & .btn,
-    & .switch,
-    & .textarea,
-    & > .radio,
-    & > .check,
-    & .option-group {
-      .zIndex('content', 0);
-      position: relative;
-      // Bring any element into forefront for proper borders given negative margin below
-      &:hover,
-      &:active,
-      &.is-selected {
-        .zIndex('content', 2);
-      }
+/* Label */
+.genericLabel() {
+  .basicInput(@padding:@form-padding, @margin:@form-margin, @borderRadius:@form-borderRadius, @borderWidth:@form-borderWidth, @borderColor:@form-borderColor, @fontWeight: @fontWeightLight);
+  white-space: nowrap;
+  background-color: darken(@form-color, 2%);
+  color: contrast(darken(@form-color, 2%), #000000, #ffffff);
+  flex-shrink: 0;
 
-      &:focus {
-        .zIndex('content', 3);
-      }
+  .input-group.is-required &,
+  &.is-required {
+    border-left: @form-borderWidth+1px solid @form-requiredColor;
+    color: @form-requiredColor;
+    font-weight: @fontWeightBold;
+  }
 
-      &.is-disabled,
-      &.is-disabled:hover {
-        .zIndex('content', 0) !important; // stay down!
-      }
+  .input-group.is-required &:after,
+  &.is-required:after {
+    content: '\00a0*';
+  }
+
+  .form-group--validation &,
+  .input-group--validation &,
+  &--validation {
+    .input-group.is-invalid &,
+    &.is-invalid {
+      color: darken(@form-dangerColor, 25%);
+      border-color: @form-dangerColor;
+      background-color: lighten(@form-dangerColor, 20%);
     }
 
-    .mq-max(@breakSmall, {
-      &:not(.input-group--bar) {
-      .input-group--block();
+    .input-group.is-recommended &,
+    &.is-recommended {
+      color: darken(@form-hintColor, 25%);
+      border-color: @form-hintColor;
+      background-color: lighten(@form-hintColor, 20%);
+    }
+
+    .input-group.is-valid &,
+    &.is-valid {
+      color: darken(@form-validColor, 25%);
+      border-color: @form-validColor;
+      background-color: lighten(@form-validColor, 20%);
+    }
+  }
+
+  &.is-disabled,
+  &:disabled {
+    color: #777777;
+    cursor: not-allowed;
+    .boxShadow(0);
+    border: @form-borderWidth dashed darken(@form-color, 20%);
+    background-color: darken(@form-color, 5%);
+  }
+
+  .icon {
+    margin: 0 .25em 0 -.1em;
+    align-self: center;
+  }
+
+  &--small {
+    font-size: .8em;
+    font-weight: @fontWeightNormal;
+    min-width: 90px;
+  }
+
+  &--block {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+
+/* Dropdown */
+.genericSelect() {
+  .basicInput(@padding:@form-padding, @margin:@form-margin, @borderRadius:@form-borderRadius, @borderWidth:@form-borderWidth, @borderColor:@form-borderColor, @fontWeight: @fontWeightLight);
+  flex: 1 1 0;
+  color: contrast(@form-color, #222222, #f4f4f4);
+  min-width: 0;
+  padding-right: 38px;
+  background-color: @form-color;
+  .arrowsUpDownBg(@color:contrast(@form-color, #222222, #f4f4f4));
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: right center;
+  transition: all .3s ease;
+
+  &:hover {
+    .boxShadow(@form-shadowHover, @form-shadowColor);
+  }
+
+  &.is-disabled,
+  &:disabled {
+    color: #777777;
+    cursor: not-allowed;
+    .boxShadow(0);
+    border: @form-borderWidth dashed darken(@form-color, 20%);
+    background-color: darken(@form-color, 5%);
+  }
+
+  .form-group--validation &,
+  .input-group--validation &,
+  &--validation {
+    .is-invalid&,
+    &.is-invalid,
+    &[aria-invalid="true"],
+    &:invalid {
+      .inputValidation(@form-color, @form-dangerColor, @focus:true);
+    }
+
+    .input-group.is-valid &,
+    &.is-valid,
+    &:valid {
+      .inputValidation(@form-color, @form-validColor, @focus:true);
+    }
+  }
+
+  &--small {
+    font-size: .8em;
+    font-weight: @fontWeightNormal;
+    background-size: 10px;
+  }
+}
+
+/* Text area */
+.genericTextarea() {
+  resize: none;
+  margin: @form-margin 0;
+  padding: @form-padding @form-padding*3.75;
+  width: 250px;
+  height: 180px;
+  background-color: @form-color;
+  border: 1px solid @form-borderColor;
+  color: contrast(@form-color, #222222, #f4f4f4);
+  transition: all .3s ease;
+  background-position: 150% center;
+  background-size: 15px;
+  background-repeat: no-repeat;
+  text-align: left;
+  font-weight: @fontWeightLight;
+
+  &--block {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+/* Switch */
+// A simple, yet elegant, boolean switch.
+.genericSwitch() {
+  .basicInput(@padding:@form-padding, @margin:@form-margin, @borderRadius:@form-borderRadius, @borderWidth:@form-borderWidth, @borderColor:@form-borderColor, @fontWeight: @fontWeightLight);
+  background-color: darken(@form-color, 2%);
+  color: contrast(darken(@form-color, 2%), #000000, #ffffff);
+  &-input {
+    display: none;
+
+    &:checked + .switch-label {
+      background: lighten(@form-validColor, 20%);
+    }
+
+    &:checked + .switch-label:after {
+      left: 50%;
+    }
+  }
+
+  &-label {
+    background: darken(@form-color, 10%);
+    .border-radius(@form-borderRadius);
+    padding: 2px;
+    transition: all .4s ease;
+    outline: 0;
+    display: block;
+    width: 2.6em;
+    height: 1.3em;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+
+    &:after {
+      left: 0;
+      position: relative;
+      display: block;
+      content: "";
+      width: 50%;
+      height: 100%;
+      background: #fff;
+      transition: all .2s ease;
+      .border-radius(@form-borderRadius);
+      .boxShadow(@form-shadow, @form-shadowColor);
+    }
+  }
+
+  .input-group & {
+    align-self: stretch;
+  }
+}
+
+.basicTickbox() {
+  .basicInput(@padding: 0, @margin:@form-margin, @borderRadius:@form-borderRadius, @borderWidth:@form-borderWidth, @borderColor:@form-borderColor, @fontWeight: @fontWeightLight);
+  color: contrast(darken(@form-color, 2%), #000000, #ffffff);
+  &-input {
+    opacity: 0;
+    position: absolute;
+  }
+  &-label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    outline: 0;
+    cursor: pointer;
+    flex-basis: 100%;
+
+    &:before {
+      content: '';
+      background: #fff;
+      border: 2px solid @form-borderColor;
+      display: inline-block;
+      vertical-align: middle;
+      width: 1em;
+      height: 1em;
+      text-align: center;
+      transition: all .4s ease;
+      box-shadow: inset 0 0 0 2px #fff;
+      flex-shrink: 0;
+    }
+
+    &:not(:empty) {
+      padding: @form-padding @form-padding*3.75;
+
+      &:before {
+        margin-right: 10px;
       }
-    });
-    .mq-min(@breakSmall, {
-      &:not(.input-group--block) {
-        .input-group--bar();
-      };
-    });
+
+      &:hover {
+        background-color: @form-color;
+      }
+    }
+  }
+  &-input:checked + &-label:before {
+    background: lighten(@form-validColor, 20%);
+    border: 2px solid lighten(@form-validColor, 10%);
+  }
+}
+
+/* Checkbox */
+.genericCheck() {
+  .basicTickbox();
+}
+
+/* Radio button */
+.genericRadio() {
+  .basicTickbox();
+  &-label {
+    &:before {
+      border-radius: 50%;
+    }
+  }
+}
+
+/* Option group */
+// Group radio buttons or checkboxes together for multi-selection lists.
+.genericOption-group() {
+  display: flex;
+  flex-direction: column;
+
+  & .radio,
+  & .check {
+    width: 100%;
+    margin: 0;
+    position: relative;
+    border-width: 0 @form-borderWidth;
+    font-weight: @fontWeightLight;
+    border-radius: 0;
+
+    &:nth-of-type(even) {
+      background-color: darken(@form-color, 5%);
+    }
+
+    &:first-child {
+      border-width: @form-borderWidth;
+      border-bottom-width: 0;
+    }
+
+    &:last-child {
+      border-width: @form-borderWidth;
+      border-top-width: 0;
+    }
+
+    .mq-min(@breakSmall, { width: auto; });
+
+    & .radio-label,
+    & .check-label {
+      padding-right: 1.75em;
+    }
   }
 
-  .input-group--block {
-    .input-group--block();
+  &--selection-list {
+    max-height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .radio,
+    .check {
+      flex: 1 0 auto;
+    }
+
+    .radio-label,
+    .check-label {
+      white-space: nowrap;
+      padding-right: 30px;
+    }
+
+    .radio:not(:last-child) .radio-label,
+    .check:not(:last-child) .check-label {
+      border-bottom: @form-borderWidth solid darken(@form-color, 20%);
+    }
+
+    .radio-label:before,
+    .check-label:before {
+      content: none;
+    }
+
+    .radio-input:checked + .radio-label,
+    .check-input:checked + .check-label {
+      background: lighten(@form-validColor, 20%);
+      border-bottom: @form-borderWidth solid lighten(@form-validColor, 10%);
+      color: #fff;
+
+      &:hover {
+        background-color: lighten(@form-validColor, 10%);;
+      }
+    }
+  }
+}
+
+
+.input,
+.label + .input--block,
+.label + .textarea--block,
+.select {
+  .mq-max(@breakSmall, { width: 100%; margin: 0; margin-bottom: 5px; });
+}
+
+/* Input group */
+// Group buttons, labels and inputs together.
+.genericInput-group() {
+  display: flex;
+  align-items: center;
+
+  & .select,
+  & .input,
+  & .btn,
+  & .switch,
+  & .textarea,
+  & > .radio,
+  & > .check,
+  & .option-group {
+    .zIndex('content', 0);
+    position: relative;
+    // Bring any element into forefront for proper borders given negative margin below
+    &:hover,
+    &:active,
+    &.is-selected {
+      .zIndex('content', 2);
+    }
+
+    &:focus {
+      .zIndex('content', 3);
+    }
+
+    &.is-disabled,
+    &.is-disabled:hover {
+      .zIndex('content', 0) !important; // stay down!
+    }
   }
 
-  .input-group--bar {
-    .input-group--bar();
+  & .input-group-item {
+    border-radius: @form-borderRadius;
+    &--jam {
+      border-radius: 0;
+    }
   }
 
-  /* Form group */
-  // Use formGroups to separate different inputs or input-groups.
-  .form-group {
+  .mq-max(@breakSmall, {
+    &:not(.input-group--bar) {
+      .input-group--block();
+    }
+  });
+  .mq-min(@breakSmall, {
+    &:not(.input-group--block) {
+      .input-group--bar();
+    };
+  });
+}
+
+.input-group--block() {
+  flex-direction: column;
+  &:not(:last-child) {
     margin-bottom: @bottomSpace;
+  }
+  & > .label,
+  & > .select,
+  & > .input,
+  & > .btn,
+  & > .switch,
+  & > .textarea,
+  & > .radio,
+  & > .check,
+  & > .option-group,
+  & .input-group-item {
+    width: 100%;
+    margin: 0;
+    margin-top: -1px;
+    flex-basis: auto;
+    .boxShadow(0);
+  }
+  & > *:not(:last-child),
+  & *:last-child > .input-group-item:not(:last-child),
+  & *:not(:last-child) > .input-group-item {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  & > *:not(:first-child),
+  & *:first-child > .input-group-item:not(:first-child),
+  & *:not(:first-child) > .input-group-item {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+  & .input-group-item {
+    &--first {
+      border-radius: @form-borderRadius @form-borderRadius 0 0 !important;
+    }
+    &--last {
+      border-radius: 0 0 @form-borderRadius @form-borderRadius !important;
+    }
+  }
+}
+
+.input-group--bar() {
+  flex-flow: row;
+  & > .label,
+  & > .select,
+  & > .input,
+  & > .btn,
+  & > .switch,
+  & > .textarea,
+  & > .radio,
+  & > .check,
+  & > .option-group,
+  & .input-group-item {
+    width: auto;
+    margin-left: -1px;
+    margin-top: @form-margin;
+    margin-bottom: @form-margin;
+    .boxShadow(@form-shadow, @form-shadowColor);
+  }
+  & > *:not(:last-child),
+  & *:last-child > .input-group-item:not(:last-child),
+  & *:not(:last-child) > .input-group-item {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  & > *:not(:first-child),
+  & *:first-child > .input-group-item:not(:first-child),
+  & *:not(:first-child) > .input-group-item {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  & .input-group-item {
+    &--first {
+      border-radius: @form-borderRadius 0 0 @form-borderRadius !important;
+    }
+    &--last {
+      border-radius: 0 @form-borderRadius @form-borderRadius 0 !important;
+    }
+  }
+}
+
+/* Form group */
+// Use form-groups to separate different inputs or input-groups.
+.genericForm() {
+  &-group {
+    * + & {margin-top: @topSpace;}
 
     &--half {
       .mq-min(@breakMedium, {
@@ -549,87 +636,28 @@
         }
       });
     }
-  }
-}
 
-.input-group--block() {
-  flex-direction: column;
-  &:not(:last-child) {
-    margin-bottom: @bottomSpace;
-  }
-  & .select,
-  & .input,
-  & .btn,
-  & .switch,
-  & .textarea,
-  & > .radio,
-  & > .check,
-  & .option-group {
-    width: 100%;
-    margin: 0;
-    margin-top: -1px;
-    .boxShadow(0);
-  }
-  & .label {
-    border-width: 0 @defaultBorderWidth;
-    width: 100%;
-    margin: 0;
-
-    &:first-child {
-      border-width: @defaultBorderWidth;
-      border-bottom-width: 0;
+    &--third {
+      .mq-min(@breakMedium, {
+        column-count: 3;
+        break-inside: avoid;
+        column-fill: balance;
+        & * {
+          break-inside: avoid;
+        }
+      });
     }
 
-    &:last-child {
-      border-width: @defaultBorderWidth;
-      border-top-width: 0;
+    &--quarter {
+      .mq-min(@breakMedium, {
+        column-count: 4;
+        break-inside: avoid;
+        column-fill: balance;
+        & * {
+          break-inside: avoid;
+        }
+      });
     }
   }
-  & > *:not(:last-child) {
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-  & > *:not(:first-child) {
-    border-top-right-radius: 0;
-    border-top-left-radius: 0;
-  }
-}
-
-.input-group--bar() {
-  flex-flow: row;
-  & .label {
-    border-width: @defaultBorderWidth;
-
-    &:first-child {
-      border-right-width: 0;
-    }
-
-    &:last-child {
-      border-left-width: 0;
-    }
-  }
-  & .label,
-  & .select,
-  & .input,
-  & .btn,
-  & .switch,
-  & .textarea,
-  & > .radio,
-  & > .check,
-  & .option-group {
-    width: auto;
-    max-width: 30vw;
-    margin-left: -1px;
-    margin-top: @inputMargin;
-    margin-bottom: @inputMargin;
-    .boxShadow(@inputShadow, @inputShadowColor);
-  }
-  & > *:not(:last-child) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  & > *:not(:first-child) {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
+  * + &-item {margin-top: @innerSpace}
 }

@@ -1,28 +1,26 @@
 @charset "UTF-8";
 /* INLINESVG ICONS */
 
-& when (@icon=true) {
-  .icon {
-    display: inline-block;
-    vertical-align: text-top;
-    fill: currentcolor;
-    color: inherit;
-    width: 1em;
-    height: 1em;
+.genericIcon() {
+  display: inline-block;
+  vertical-align: text-top;
+  fill: currentcolor;
+  color: inherit;
+  width: 1em;
+  height: 1em;
 
-    & path,
-    & circle,
-    & rect,
-    & ellipse,
-    & polygon,
-    & polyline {
-      fill: inherit;
-      stroke: none;
-    }
+  & path,
+  & circle,
+  & rect,
+  & ellipse,
+  & polygon,
+  & polyline {
+    fill: inherit;
+    stroke: none;
   }
 }
 
-.colorizeIcon(@color) when (@icon=true) {
+.colorizeIcon(@color) {
   & .icon,
   &.icon {
     color: darken(@color, 25%);
